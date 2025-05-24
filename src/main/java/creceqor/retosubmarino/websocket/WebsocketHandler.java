@@ -1,16 +1,24 @@
 package creceqor.retosubmarino.websocket;
 
+import creceqor.retosubmarino.model.Event;
 import io.quarkus.websockets.next.OnOpen;
-import io.quarkus.websockets.next.PathParam;
+import io.quarkus.websockets.next.OnTextMessage;
 import io.quarkus.websockets.next.WebSocket;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebSocket(path = "/join/{userId}")
+@WebSocket(path = "/ws")
+@ApplicationScoped
 public class WebsocketHandler {
-    @OnOpen(broadcast = true)
-    public String onOpen(@PathParam("userId") String userId) {
+    @OnOpen
+    public void onOpen() {
         log.info("WebSocket connection opened");
-        return "Hello " + userId;
+    }
+
+    @OnTextMessage
+    public String onTextMessage(Event event) {
+        log.info("Received event type: {}", event.getType());
+        return "Echo: ";
     }
 }
