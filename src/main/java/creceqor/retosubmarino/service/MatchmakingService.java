@@ -26,7 +26,7 @@ public class MatchmakingService {
         log.info("result: {}", result);
 
         if (result < 2) {
-            return "";
+            return null;
         }
 
         List<String> players = redisManager.popFromQueue(2);
